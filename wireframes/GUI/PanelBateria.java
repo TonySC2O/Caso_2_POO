@@ -3,13 +3,12 @@ package GUI;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
-public class PanelClima extends JPanel{
+public class PanelBateria extends JPanel{
 	
 	private MatteBorder borde = new MatteBorder(2, 2, 2, 2, Color.BLACK);
 	
@@ -33,42 +32,40 @@ public class PanelClima extends JPanel{
         add(pPanel);
 	}
 	
-	public PanelClima() {
+	public PanelBateria() {
 		setLayout(null);
 		setBackground(Color.lightGray);
 		
-		JLabel label = new JLabel("Clima");
+		JLabel label = new JLabel("Batería");
 		Colocar_label(label, null, 10, 20, 565, 80, true, Color.white, 24, true);
 		
 		JLabel lblImagen = new JLabel();
 		Colocar_label(lblImagen, null, 10, 110, 373, 370, true, Color.white, 0, true);
 		
-		String e = "<html>Bonos:<br><br>"
-				+ "Soleado (+50%)<br><br>"
-				+ "Despejado(0%)<br><br>"
-				+ "Parcialmente<br>"
-				+ "Nublado (-25%)<br><br>"
-				+ "Lloviendo (-50%<br><br>"
-				+ "Noche (-100%)<br><br>"
-				+ "(El último bono<br>"
-				+ "activa el uso de<br>"
-				+ "energia<br>"
-				+ "almacenada en<br>"
-				+ "batería)</html>";
+		String s = "<html><center>kW almacenados:<br>"
+				+ "1200<br>"
+				+ "Modo uso energia:<br>"
+				+ "desactivado</center></html>";
 		
-		JLabel lblBonos = new JLabel(e);
-		Colocar_label(lblBonos, null, 395, 110, 180, 480, true, Color.white, 20, true);
-
-		JComboBox cmbClima = new JComboBox<String>();
-		cmbClima.addItem("Soleado");
-		cmbClima.addItem("Despejado");
-		cmbClima.addItem("Parcialmente Nublado");
-		cmbClima.addItem("Lloviendo");
-		cmbClima.addItem("Noche");
-		cmbClima.setFocusable(false);
-		cmbClima.setFont(new Font("Arial", Font.BOLD, 20));
-		cmbClima.setBounds(10, 490, 373, 100);
+		JLabel lblinfo = new JLabel(s);
+		Colocar_label(lblinfo, null, 10, 490, 373, 100, true, Color.white, 18, true);
 		
-		add(cmbClima);
+		JPanel pnlCapMax = new JPanel();
+		Colocar_panel(pnlCapMax, 395, 110, 180, 120, Color.white);
+		
+		String sAlmacen = "<html>kWh almacenados:<br>50 kW</html>";
+		JLabel lblAlmacen = new JLabel(sAlmacen);
+		Colocar_label(lblAlmacen, null, 395, 240, 180, 70, true, Color.white, 18, true);
+		
+		String sUsoEnergia = "<html>Modo uso energía<br><br>"
+				+ "Gasto por hora:<br>"
+				+ "0 kWh<br><br>"
+				+ "La energía se<br>"
+				+ "agotará en<br>"
+				+ "aproximadamente:<br>"
+				+ "No activo</html>";
+		
+		JLabel lblUsoEnergia = new JLabel(sUsoEnergia);
+		Colocar_label(lblUsoEnergia, null, 395, 320, 180, 270, true, Color.white, 18, true);
 	}
 }

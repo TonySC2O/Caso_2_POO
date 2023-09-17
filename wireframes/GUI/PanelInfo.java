@@ -3,13 +3,12 @@ package GUI;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
-public class PanelClima extends JPanel{
+public class PanelInfo extends JPanel{
 	
 	private MatteBorder borde = new MatteBorder(2, 2, 2, 2, Color.BLACK);
 	
@@ -33,42 +32,29 @@ public class PanelClima extends JPanel{
         add(pPanel);
 	}
 	
-	public PanelClima() {
+	public PanelInfo(){
 		setLayout(null);
 		setBackground(Color.lightGray);
 		
-		JLabel label = new JLabel("Clima");
+		JLabel label = new JLabel("Información general de equipo solar");
 		Colocar_label(label, null, 10, 20, 565, 80, true, Color.white, 24, true);
 		
-		JLabel lblImagen = new JLabel();
-		Colocar_label(lblImagen, null, 10, 110, 373, 370, true, Color.white, 0, true);
-		
-		String e = "<html>Bonos:<br><br>"
-				+ "Soleado (+50%)<br><br>"
-				+ "Despejado(0%)<br><br>"
-				+ "Parcialmente<br>"
-				+ "Nublado (-25%)<br><br>"
-				+ "Lloviendo (-50%<br><br>"
-				+ "Noche (-100%)<br><br>"
-				+ "(El último bono<br>"
-				+ "activa el uso de<br>"
-				+ "energia<br>"
-				+ "almacenada en<br>"
-				+ "batería)</html>";
-		
-		JLabel lblBonos = new JLabel(e);
-		Colocar_label(lblBonos, null, 395, 110, 180, 480, true, Color.white, 20, true);
+		JPanel pnlGastoHora = new JPanel();
+		Colocar_panel(pnlGastoHora, 10, 110, 373, 370, Color.white);
 
-		JComboBox cmbClima = new JComboBox<String>();
-		cmbClima.addItem("Soleado");
-		cmbClima.addItem("Despejado");
-		cmbClima.addItem("Parcialmente Nublado");
-		cmbClima.addItem("Lloviendo");
-		cmbClima.addItem("Noche");
-		cmbClima.setFocusable(false);
-		cmbClima.setFont(new Font("Arial", Font.BOLD, 20));
-		cmbClima.setBounds(10, 490, 373, 100);
+		JPanel pnlGastoSemana = new JPanel();
+		Colocar_panel(pnlGastoSemana, 10, 490, 180, 100, Color.white);
+
+		JPanel pnlGastoMes = new JPanel();
+		Colocar_panel(pnlGastoMes, 203, 490, 180, 100, Color.white);
+
+		JPanel pnlGastoAño = new JPanel();
+		Colocar_panel(pnlGastoAño, 395, 490, 180, 100, Color.white);
 		
-		add(cmbClima);
+		JPanel pnlClima = new JPanel();
+		Colocar_panel(pnlClima, 395, 110, 180, 180, Color.white);
+		
+		JPanel pnlAlmacenamiento = new JPanel();
+		Colocar_panel(pnlAlmacenamiento, 395, 300, 180, 180, Color.white);
 	}
 }
