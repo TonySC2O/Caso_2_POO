@@ -11,6 +11,21 @@ import Manager.Action;
 import Manager.TaskManager;
 import Soporte.*;
 
+/*
+ * Acuerdo:
+   Display de información sobre el sistema de energía solar, donde se podrá ver el
+   sistema estándar con 5 paneles solares y una batería de almacenamiento, el usuario
+   no ingresa información en este apartado, como resultado, se indicará cuantos kWh
+   genera el sistema y gasta el edificio anual, mensual y semanalmente, además de la
+   energía que se almacena en la batería de almacenamiento y el estado del clima.
+   
+ * Estrategia:
+   Implementar los controllers y las clases de mi modelo completas de tal forma que desde
+   el main se puedan verificar que todo funciona correctamente y con sentido, para al final
+   hacer las pantallas y aplicar el sistema del .json como sistema de almacenamiento y carga
+   de datos.
+ */
+
 public class main {
 	
 	public static Ventana frame = new Ventana();
