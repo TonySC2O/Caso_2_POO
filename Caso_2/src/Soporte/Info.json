@@ -1,0 +1,17 @@
+{
+	"Tiempo":
+	{
+		"Dia": 10,
+		"Mes": 10,
+		"Año": 2023,
+		"Hora": 10,
+		"Minuto": 30
+	},
+	"Clima":
+	{
+		"RadSoleado": 1000,
+		"RadParcialNublado": 500,
+		"RadNublado": 250,
+		"RadAnocheciendo": 150
+	}
+}
