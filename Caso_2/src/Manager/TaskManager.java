@@ -4,7 +4,7 @@ import Control.*;
 
 public class TaskManager implements ITask{
 	
-	ManagerControl manager;
+	private ManagerControl manager;
 	
 	public TaskManager(ControlBateria pCBateria, ControlClima pCClima, ControlEdificio pCEdificio, ControlEnergia pCEnergia, ControlPanelSolar pCPanel) {
 		manager = new ManagerControl(pCBateria, pCClima, pCEdificio, pCEnergia, pCPanel);

@@ -1,9 +1,9 @@
 package Objetos;
 
 public class Edificio {
-	int gastoEnergia;
-	int energiaRecibida;
-	int media;
+	private int gastoEnergia;
+	private int energiaRecibida;
+	private int media;
 	
 	public Edificio(int pGastoEnergia, int pEnergiaRecibida, int pMedia) {
 		this.gastoEnergia = pGastoEnergia;

@@ -1,9 +1,9 @@
 package Objetos;
 
 public class PanelSolar {
-	int energiaGenerada;
-	int areaPanel;
-	double eficiencia = 0.20;
+	private int energiaGenerada;
+	private int areaPanel;
+	private double eficiencia = 0.20;
 	
 	public PanelSolar(int pEnergiaGenerada, int pAreaPanel, double pEficiencia){
 		this.energiaGenerada = pEnergiaGenerada;

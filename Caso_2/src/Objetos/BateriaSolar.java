@@ -1,10 +1,10 @@
 package Objetos;
 
 public class BateriaSolar {
-	int energiaAlmacenada;
-	int flujoEnergia;
-	int capacidad;
-	int durabilidad;
+	private int energiaAlmacenada;
+	private int flujoEnergia;
+	private int capacidad;
+	private int durabilidad;
 	
 	public BateriaSolar(int pEnergiaAlmacenada, int pFlujoEnergia, int pCapacidad, int pDurabilidad) {
 		this.energiaAlmacenada = pEnergiaAlmacenada;

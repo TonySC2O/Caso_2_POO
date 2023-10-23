@@ -1,12 +1,14 @@
 package Objetos;
 
+import java.util.Date;
+
 public class EnergiaDiaria {
-	int GastoEnergia;
-	int ProduccionEnergia;
-	int ConsumoBateria;
-	String Fecha;
+	private int GastoEnergia;
+	private int ProduccionEnergia;
+	private int ConsumoBateria;
+	private Date Fecha;
 	
-	public EnergiaDiaria(int pGastoEnergia, int pProduccionEnergia, int pConsumoBateria, String pFecha) {
+	public EnergiaDiaria(int pGastoEnergia, int pProduccionEnergia, int pConsumoBateria, Date pFecha) {
 		this.GastoEnergia = pGastoEnergia;
 		this.ProduccionEnergia = pProduccionEnergia;
 		this.ConsumoBateria = pConsumoBateria;
@@ -24,10 +26,10 @@ public class EnergiaDiaria {
 	public void setProduccionEnergia(int produccionEnergia) {
 		ProduccionEnergia = produccionEnergia;
 	}
-	public String getFecha() {
+	public Date getFecha() {
 		return Fecha;
 	}
-	public void setFecha(String fecha) {
+	public void setFecha(Date fecha) {
 		Fecha = fecha;
 	}
 	public int getConsumoBateria() {

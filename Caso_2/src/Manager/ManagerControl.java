@@ -1,5 +1,7 @@
 package Manager;
 
+import java.util.Date;
+
 import Control.*;
 import Objetos.*;
 import Soporte.Clock;
@@ -272,7 +274,7 @@ public class ManagerControl {
 	}
 	
 	public void GuardarRegistroDiario() {
-		String fecha = Clock.getFecha();
+		Date fecha = Clock.getTime();
 		
 		
 		Util.report(fecha + "\n"

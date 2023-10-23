@@ -1,21 +1,53 @@
 package Soporte;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.json.JsonObject;
 
 
 
 public class Information {
-	
-	private ArrayList<Task> tasks;
+
+	private int[] radiacionxClimas;
+	private int[] consumoxHora;
+	private int[] areasPaneles;
+	private double[] eficienciaPaneles;
+	private int capacidadBateria;
+	private InformationParser parser;
 	
 	public Information() {
 		
-		
-		InformationParser parser = new InformationParser();
-		tasks = parser.getTasks();
+		parser = new InformationParser();
+		radiacionxClimas = parser.getRadiacionxClimas();
+		consumoxHora = parser.getConsumoxHora();
+		areasPaneles = parser.getAreasPaneles();
+		eficienciaPaneles = parser.getEficienciaPaneles();
+		capacidadBateria = parser.getCapacidadBateria();
 	}
 	
-	public void processTasks() {
-		
+	public int[] getRadiacionxClimas() {
+		return radiacionxClimas;
 	}
+	
+	public int[] getConsumoxHora() {
+		return consumoxHora;
+	}
+	
+	public int[] getAreasPaneles() {
+		return areasPaneles;
+	}
+
+	public double[] getEficienciaPaneles() {
+		return eficienciaPaneles;
+	}
+
+	public int getCapacidadBateria() {
+		return capacidadBateria;
+	}
+	
+	public void setTiempo(Date currentTime){
+		parser.setTiempoJson(currentTime);
+	}
+
 }

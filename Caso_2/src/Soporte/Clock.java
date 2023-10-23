@@ -4,19 +4,22 @@ import java.util.Calendar;
 import java.util.Date;
 
 import Manager.Action;
+import Manager.TaskManager;
 
 public class Clock extends Thread {
 	private static boolean running = true;
-	private static Date currentTime;
-	private static int horas = 7;
+	private static Date currentTime = Calendar.getInstance().getTime();
+	private static int horas =  currentTime.getHours();
 	private static int maxMes = 31;
 	private static int dia = 1;
 	private static int mes = 1;
 	private static int año = 2023;
 	private Information information;
+	private TaskManager task;
 	
-	public Clock(Information pInformation) {
+	public Clock(Information pInformation, TaskManager pTask) {
 		information = pInformation;
+		this.task = pTask;
 	}
 	
 	public void stopTimer() {
@@ -24,30 +27,18 @@ public class Clock extends Thread {
 	}
 	
 	public void run() {
+		currentTime.setSeconds(0);
+		currentTime.setMinutes(0);
+		Calendar calendar = Calendar.getInstance();
 		while (running) {
 			try {
-				currentTime = Calendar.getInstance().getTime();
 				
-				Main.main.runnable(horas);
+				runnable();
 				Thread.sleep(1000);	// controlar la escala de tiempo
 				
-				horas++;
-				
-				if(horas > 23) {
-					horas = 0;
-					dia++;
-				}
-				
-				if(dia > maxMes) {
-					dia = 1;
-					mes++;
-					maxMes = CalcularMaxMes(mes, año);
-				}
-				
-				if(mes > 12) {
-					año++;
-				}
-				
+				calendar.setTime(currentTime);
+				calendar.add(Calendar.HOUR_OF_DAY, 1);
+				currentTime = calendar.getTime();
 				
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -69,37 +60,49 @@ public class Clock extends Thread {
 	}
 	
 	public static int getTiempo() {
-		return horas;
+		return currentTime.getHours();
 	}
 	
-	public static int getMaxMes() {
-		return maxMes;
+	public static  Date getTime() {
+		return currentTime;
 	}
 	
-	public static int CalcularMaxMes(int pMes, int pAño) {
+	public void runnable() {
 		
-		int max = 0;
+		Util.report("==========================", null, "");
 		
-		if(pMes == 4 || pMes == 6 || pMes == 9 || pMes == 10) {
-			max = 30;
-		}else if(pMes == 2){
-			if(pAño % 4 == 0 && pAño % 100 != 0 || pAño % 400 == 0) {
-				max = 29;
-			}else {
-				max = 28;
-			}
-		}else {
-			max = 31;
+		System.out.println(currentTime);
+		
+		task.execute(Action.verificarFuenteEnergia);
+		
+		System.out.println("\nCLIMA:");
+		task.execute(Action.verificarClima);
+		task.execute(Action.enviarRadiacion);
+		
+		System.out.println("\nPANELES:");
+		task.execute(Action.verificarProduccion);
+		task.execute(Action.verificarActividad);
+		
+		System.out.println("\nEDIFICIO:");
+		task.execute(Action.consumirEnergia);
+		task.execute(Action.alimentarEdificio);
+		task.execute(Action.verificarConsumo);
+		task.execute(Action.verificarEstabilidad);
+		
+		System.out.println("\nBATERÍA:");
+		task.execute(Action.verificarFlujo);
+		task.execute(Action.alimentarBateria);
+		task.execute(Action.verificarEnergiaBateria);
+		task.execute(Action.verificarDurabilidad);
+
+		task.execute(Action.guardarRegistroHora);
+		
+		System.out.println();
+		
+		if(horas == 23) {
+			task.execute(Action.guardarRegistroDiario);
+			Main.main.myInformation.setTiempo(currentTime);
 		}
 		
-		return max;
-	}
-	
-	public static String getFecha() {
-		return Integer.toString(dia) + "-" + Integer.toString(mes) + "-" + Integer.toString(año);
-	}
-	
-	public static Date getTime() {
-		return currentTime;
 	}
 }
