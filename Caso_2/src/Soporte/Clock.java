@@ -2,18 +2,14 @@ package Soporte;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import Manager.Action;
 import Manager.TaskManager;
 
 public class Clock extends Thread {
 	private static boolean running = true;
-	private static Date currentTime = Calendar.getInstance().getTime();
-	private static int horas =  currentTime.getHours();
-	private static int maxMes = 31;
-	private static int dia = 1;
-	private static int mes = 1;
-	private static int año = 2023;
+	private static Date currentTime = GregorianCalendar.getInstance().getTime();
 	private Information information;
 	private TaskManager task;
 	
@@ -29,7 +25,7 @@ public class Clock extends Thread {
 	public void run() {
 		currentTime.setSeconds(0);
 		currentTime.setMinutes(0);
-		Calendar calendar = Calendar.getInstance();
+		Calendar calendar = new GregorianCalendar().getInstance();
 		while (running) {
 			try {
 				
@@ -99,7 +95,7 @@ public class Clock extends Thread {
 		
 		System.out.println();
 		
-		if(horas == 23) {
+		if(currentTime.getHours() == 23) {
 			task.execute(Action.guardarRegistroDiario);
 			Main.main.myInformation.setTiempo(currentTime);
 		}

@@ -1,5 +1,6 @@
 package Main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -48,7 +49,6 @@ public class main {
 		for(int i = 0; i < paneles.length; i++) {
 			paneles[i] = new PanelSolar(0, areasPaneles[i], eficienciaPaneles[i]);
 		}
-		
 		ControlBateria controlBateria = new ControlBateria(new BateriaSolar(0, 0, myInformation.getCapacidadBateria(), 0), false);
 		ControlClima controlClima = new ControlClima(radiacionxClimas, climas, "Soleado");
 		ControlEdificio controlEdificio = new ControlEdificio(new Edificio(0, 0, 0), "Paneles", consumoxHora);

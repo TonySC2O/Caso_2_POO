@@ -13,11 +13,13 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 //https://mvnrepository.com/artifact/javax.json/javax.json-api/1.1.4
 
 public class InformationParser {
 	private JsonObject json;
+	private String pathtofile = "C:\\Users\\Tony\\Documents\\TEC\\POO\\Caso_2_POO\\Caso_2\\src\\Soporte\\info.json";
 	
 	public InformationParser() {
 		loadJson();
@@ -57,10 +59,10 @@ public class InformationParser {
 	
 	public double[] getEficienciaPaneles() {
 
-        JsonArray Array = json.getJsonArray("AreasPaneles");
+        JsonArray Array = json.getJsonArray("EficienciaPaneles");
 
         double[] eficiencias = new double[Array.size()];
-
+        
         for (int i = 0; i < Array.size(); i++) {
         	eficiencias[i] = Array.getJsonNumber(i).doubleValue();
         }
@@ -76,10 +78,33 @@ public class InformationParser {
 	
 	public void setTiempoJson(Date currentTime){
 		
+		try {
+
+            JsonObject tiempoObject = json.getJsonObject("Tiempo");
+
+            JsonObjectBuilder modifiedTiempoObjectBuilder = Json.createObjectBuilder(tiempoObject)
+                    .add("Dia", Integer.parseInt(new SimpleDateFormat("dd").format(currentTime)))
+                    .add("Mes", currentTime.getMonth())
+                    .add("Año", Integer.parseInt(new SimpleDateFormat("yyyy").format(currentTime)))
+                    .add("Hora", 23);
+
+            JsonObjectBuilder modifiedJsonObjectBuilder = Json.createObjectBuilder(json);
+            modifiedJsonObjectBuilder.add("Tiempo", modifiedTiempoObjectBuilder);
+
+            JsonObject modifiedJsonObject = modifiedJsonObjectBuilder.build();
+
+            JsonWriter jsonWriter = Json.createWriter(new FileWriter(pathtofile));
+            jsonWriter.writeObject(modifiedJsonObject);
+            jsonWriter.close();
+
+            System.out.println("Archivo JSON modificado y guardado con éxito.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	
 	private void loadJson() {
-		String pathtofile = "C:\\Users\\Tony\\Documents\\TEC\\POO\\Caso_2_POO\\Caso_2\\src\\Soporte\\info.json";
+		
         
 		try ( JsonReader reader = Json.createReader(new FileReader(pathtofile))) {
             json = reader.readObject();       
