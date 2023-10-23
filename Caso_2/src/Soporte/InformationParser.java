@@ -2,17 +2,23 @@ package Soporte;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
+
+import Objetos.EnergiaDiaria;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 //https://mvnrepository.com/artifact/javax.json/javax.json-api/1.1.4
@@ -76,16 +82,48 @@ public class InformationParser {
 		return capacidad;
 	}
 	
-	public void setTiempoJson(Date currentTime){
+	public ArrayList<EnergiaDiaria> getRegistroEnergia(){
 		
+		ArrayList<EnergiaDiaria> registro = new ArrayList<>();
+
+        try {
+            
+            JsonArray registroEnergiaArray = json.getJsonArray("RegistroEnergia");
+
+            for (JsonObject jsonEnergiaDiaria : registroEnergiaArray.getValuesAs(JsonObject.class)) {
+                int gastoEnergia = jsonEnergiaDiaria.getInt("GastoEnergia");
+                int produccionEnergia = jsonEnergiaDiaria.getInt("ProduccionEnergia");
+                int consumoBateria = jsonEnergiaDiaria.getInt("ConsumoBateria");
+                String fechaStr = jsonEnergiaDiaria.getString("Fecha");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date fecha = dateFormat.parse(fechaStr);
+
+                EnergiaDiaria energiaDiaria = new EnergiaDiaria(gastoEnergia, produccionEnergia, consumoBateria, fecha);
+
+                registro.add(energiaDiaria);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+		return registro;
+	}
+	
+	public void setTiempoJson(Date pCurrentTime){
+
+		long tiempoFecha = pCurrentTime.getTime();
+		Date currentTime = new Date(tiempoFecha);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentTime);
 		try {
 
             JsonObject tiempoObject = json.getJsonObject("Tiempo");
 
             JsonObjectBuilder modifiedTiempoObjectBuilder = Json.createObjectBuilder(tiempoObject)
-                    .add("Dia", Integer.parseInt(new SimpleDateFormat("dd").format(currentTime)))
-                    .add("Mes", currentTime.getMonth())
-                    .add("Año", Integer.parseInt(new SimpleDateFormat("yyyy").format(currentTime)))
+                    .add("Dia", calendar.get(Calendar.DAY_OF_MONTH))
+                    .add("Mes", calendar.get(Calendar.MONTH)+1)
+                    .add("Año", calendar.get(Calendar.YEAR))
                     .add("Hora", 23);
 
             JsonObjectBuilder modifiedJsonObjectBuilder = Json.createObjectBuilder(json);
@@ -97,17 +135,26 @@ public class InformationParser {
             jsonWriter.writeObject(modifiedJsonObject);
             jsonWriter.close();
 
-            System.out.println("Archivo JSON modificado y guardado con éxito.");
         } catch (Exception e) {
             e.printStackTrace();
         }
+	}
+	
+	public int[] getElementosFecha() {
+		
+		JsonObject variables = json.getJsonObject("Tiempo");
+        int[] elementos = {variables.getInt("Dia"),variables.getInt("Mes"),
+        					 variables.getInt("Año"),variables.getInt("Hora")};
+
+		return elementos;
 	}
 	
 	private void loadJson() {
 		
         
 		try ( JsonReader reader = Json.createReader(new FileReader(pathtofile))) {
-            json = reader.readObject();       
+            json = reader.readObject();   
+            reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }		

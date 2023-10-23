@@ -31,10 +31,11 @@ public class main {
 	
 	public static Ventana frame = new Ventana();
 	public static Information myInformation = new Information();
+	public static ArrayList<EnergiaDiaria> registroEnergia = myInformation.getRegistroEnergia();
+	public static Clock threadControl;
 
 	public static void main(String[] args) {
-		
-		ArrayList<EnergiaDiaria> registroEnergia = new ArrayList<EnergiaDiaria>();
+
 		
 		String[] climas = {"Soleado", "Parcial Nublado", "Nublado"};
 		int[] radiacionxClimas = myInformation.getRadiacionxClimas();
@@ -57,10 +58,9 @@ public class main {
 		
 		TaskManager task = new TaskManager(controlBateria, controlClima, controlEdificio, controlEnergia, controlPaneles);
 		
-		Clock threadControl = new Clock(myInformation, task);
-		myInformation.setTiempo(threadControl.getTime());
+		threadControl = new Clock(myInformation, task);
+		//myInformation.setTiempo(threadControl.getTime());
 		threadControl.start();
-		
 		
 		SwingUtilities.invokeLater(() -> {
 	        frame.setVisible(true);

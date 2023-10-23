@@ -1,21 +1,27 @@
 package Soporte;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Manager.Action;
 import Manager.TaskManager;
+import Objetos.EnergiaDiaria;
 
 public class Clock extends Thread {
-	private static boolean running = true;
-	private static Date currentTime = GregorianCalendar.getInstance().getTime();
+	private boolean running = true;
+	private Calendar calendar = new GregorianCalendar().getInstance();
+	private Date currentTime = calendar.getTime();
 	private Information information;
 	private TaskManager task;
 	
 	public Clock(Information pInformation, TaskManager pTask) {
-		information = pInformation;
+		this.information = pInformation;
 		this.task = pTask;
+		long tiempoFecha = information.getFechaGuardada().getTime();
+		currentTime = new Date(tiempoFecha);
+		calendar.setTime(currentTime);
 	}
 	
 	public void stopTimer() {
@@ -25,7 +31,6 @@ public class Clock extends Thread {
 	public void run() {
 		currentTime.setSeconds(0);
 		currentTime.setMinutes(0);
-		Calendar calendar = new GregorianCalendar().getInstance();
 		while (running) {
 			try {
 				
@@ -42,25 +47,16 @@ public class Clock extends Thread {
 		}
 	}
 	
-	public static int getSecondsToNow(Date pBaseTime) {
-        
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(pBaseTime);
-        
-        int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE);
-        int seconds = calendar.get(Calendar.SECOND);
-        
-        // total seconds
-        return (hours * 3600) + (minutes * 60) + seconds;		
+	public int getTiempo() {
+		return this.currentTime.getHours();
 	}
 	
-	public static int getTiempo() {
-		return currentTime.getHours();
+	public Date getTime() {
+		return this.currentTime;
 	}
-	
-	public static  Date getTime() {
-		return currentTime;
+
+	public Calendar getCalendar() {
+		return this.calendar;
 	}
 	
 	public void runnable() {
@@ -95,9 +91,9 @@ public class Clock extends Thread {
 		
 		System.out.println();
 		
-		if(currentTime.getHours() == 23) {
-			task.execute(Action.guardarRegistroDiario);
+		if(calendar.get(Calendar.HOUR_OF_DAY) == 23) {
 			Main.main.myInformation.setTiempo(currentTime);
+			task.execute(Action.guardarRegistroDiario);
 		}
 		
 	}

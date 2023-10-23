@@ -39,7 +39,7 @@ public class ManagerControl {
 	
 	public void VerificarActividad() {
 		
-		String clima = controlClima.CalcularClima(Clock.getTiempo());
+		String clima = controlClima.CalcularClima(Main.main.threadControl.getTiempo());
 		String respuesta = "Los paneles están innactivos";
 		if(clima != "Noche") {
 			if(controlPanel.isActivos()) {
@@ -121,7 +121,7 @@ public class ManagerControl {
 	
 	public void ConsumirEnergia() {
 		
-		int consumo = controlEdificio.CalcularConsumo(Clock.getTiempo());
+		int consumo = controlEdificio.CalcularConsumo(Main.main.threadControl.getTiempo());
 		Util.report("El edificio ahora consume " + Integer.toString(consumo) + " kWh", consumo, "Consumo");
 	}
 	
@@ -135,7 +135,7 @@ public class ManagerControl {
 			return true;
 		}
 		
-		if (Clock.getTiempo() >= 19 || Clock.getTiempo() < 5) {
+		if (Main.main.threadControl.getTiempo() >= 19 || Main.main.threadControl.getTiempo() < 5) {
 			controlEdificio.setConEnergia(false);
 			Util.report("Energia de batería acabada", estable, "Estabilidad");
 			return false;
@@ -193,7 +193,7 @@ public class ManagerControl {
 	
 	public void VerificarClima() {
 		
-		String clima = controlClima.CalcularClima(Clock.getTiempo());
+		String clima = controlClima.CalcularClima(Main.main.threadControl.getTiempo());
 		controlClima.CambiarClima(clima);
 		Util.report("El Clima actual es: " + clima, clima, "Clima");
 	}
@@ -230,7 +230,7 @@ public class ManagerControl {
 	
 	public void VerificarFuenteEnergia() {
 		
-		if(Clock.getTiempo() >= 19 || Clock.getTiempo() < 5) {
+		if(Main.main.threadControl.getTiempo() >= 19 || Main.main.threadControl.getTiempo() < 5) {
 			if(!controlBateria.isUsarBateria()) {
 				CambiarFuenteEnergia("Bateria", null);
 			}
@@ -274,16 +274,19 @@ public class ManagerControl {
 	}
 	
 	public void GuardarRegistroDiario() {
-		Date fecha = Clock.getTime();
+		Date fecha = Main.main.threadControl.getTime();
+
+		long tiempoFecha = fecha.getTime();
+
+		Date fechaGuardada = new Date(tiempoFecha);
 		
-		
-		Util.report(fecha + "\n"
+		Util.report(fechaGuardada + "\n"
 					+ "Consumo Total Diario: " + Integer.toString(ConsumoTotalDiario) + "\n"
 					+ "Producción Total Diaria: " + Integer.toString(ProduccionTotalDiaria) + "\n"
 					+ "Consumo Total Batería: " + Integer.toString(ConsumoTotalBateria) + "\n", null, "");
 		
 
-		EnergiaDiaria registro = new EnergiaDiaria(ConsumoTotalDiario, ProduccionTotalDiaria, ConsumoTotalBateria, fecha);
+		EnergiaDiaria registro = new EnergiaDiaria(ConsumoTotalDiario, ProduccionTotalDiaria, ConsumoTotalBateria, fechaGuardada);
 		controlEnergia.AñadirRegistro(registro);
 		
 		ConsumoTotalDiario = 0;
